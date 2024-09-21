@@ -66,8 +66,9 @@ class DDPM(nn.Module):
 
 
 def train_ddpm_rnn(model,dataset,optimizer,loss,betas,times,timesteps):
+    train_losses=[]
     for i in range(times):
-        train_losses=[]
+        
         total_loss=0.0
 
         for images,_ in dataset:
@@ -85,8 +86,6 @@ def train_ddpm_rnn(model,dataset,optimizer,loss,betas,times,timesteps):
             los.backward()
             optimizer.step()
             total_loss+=los.item()
-            print(len(dataset),total_loss)
-
 
         with torch.no_grad():
             picture,_=model(x_t,hidden)
